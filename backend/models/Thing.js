@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+//*******************SCHEMA DE DONNEES STRICT ******************************** */
 const thingSchema = mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
