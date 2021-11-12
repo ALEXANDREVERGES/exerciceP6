@@ -4,11 +4,11 @@ const router = express.Router();
 const stuffCtrl = require('../controllers/stuff');
 
 const auth = require('../middleware/auth');
-
+const multer = require('../middleware/multer-config');
 //************CREER NOUVEL OBJ *********************************/
-router.post('/', auth, stuffCtrl.createThing);
+router.post('/', auth, multer, stuffCtrl.createThing);
 //************Modifier Produit****************************** */
-router.put('/:id', auth, stuffCtrl.modifyThing);
+router.put('/:id', auth, multer, stuffCtrl.modifyThing);
 //************Supprimer  produit  *************************************** */
 router.delete('/:id', auth, stuffCtrl.deleteThing);
 //************Récupérer produit avec ID ****************************** */
