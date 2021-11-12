@@ -3,17 +3,17 @@ const router = express.Router();
 
 const stuffCtrl = require('../controllers/stuff');
 
-
+const auth = require('../middleware/auth');
 
 //************CREER NOUVEL OBJ *********************************/
-router.post('/', stuffCtrl.createThing);
+router.post('/', auth, stuffCtrl.createThing);
 //************Modifier Produit****************************** */
-router.put('/:id', stuffCtrl.modifyThing);
+router.put('/:id', auth, stuffCtrl.modifyThing);
 //************Supprimer  produit  *************************************** */
-router.delete('/:id', stuffCtrl.deleteThing);
+router.delete('/:id', auth, stuffCtrl.deleteThing);
 //************Récupérer produit avec ID ****************************** */
-router.get('/:id', stuffCtrl.getOneThing);
+router.get('/:id', auth, stuffCtrl.getOneThing);
 //************Récupérer TOUS les produits  ****************************** */
-router.get('/' , stuffCtrl.getAllThings);
+router.get('/' , auth, stuffCtrl.getAllThings);
 
 module.exports = router;
