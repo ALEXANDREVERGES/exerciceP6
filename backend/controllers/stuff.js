@@ -1,8 +1,10 @@
 // in controllers/stuff.js
 
 const Thing = require('../models/Thing');
-
-
+//********fs ---> file system ----> système de fichiers */
+//****Il nous donne accès aux fonctions qui nous permettent de
+// modifier le système de fichiers, y compris aux fonctions permettant de supprimer les fichiers. */
+const fs = require ('fs');
 
 //**********CREER NOUVEL OBJ ****************************************/
 exports.createThing = (req, res, next) => {
@@ -32,11 +34,18 @@ exports.modifyThing =  (req, res, next) => {
   }
 
 //*******************SUPPRIMER OBJ ****************************************/
-  exports.deleteThing = (req, res, next) => {
-    Thing.deleteOne({_id: req.params.id})
-    .then(() => {res.status(200).json({message: 'Deleted!'});})
-    .catch((error) => { res.status(400).json({error: error});});
-  }
+exports.deleteThing = (req, res, next) => {
+  Thing.findOne({ _id: req.params.id })
+    .then(thing => {
+      const filename = thing.imageUrl.split('/images/')[1];
+      fs.unlink(`images/${filename}`, () => {
+        Thing.deleteOne({ _id: req.params.id })
+          .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
+          .catch(error => res.status(400).json({ error }));
+      });
+    })
+    .catch(error => res.status(500).json({ error }));
+};
 //*****************Récupérer 1 seul obj ***********************************/
   exports.getOneThing = (req, res, next) => {
     Thing.findOne({_id: req.params.id})
